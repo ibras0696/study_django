@@ -1,0 +1,19 @@
+<h1>{{ header }}</h1>
+
+<h2>Язык программирования</h2>
+<ul>
+    {% for item in lang %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Пользователь</h2>
+<p>Имя: {{ user.name }}</p>
+<p>Возраст: {{ user.age }}</p>
+
+<h2>Адрес</h2>
+<ul>
+    <li>Улица: {{ address.0 }}</li>
+    <li>Дом: {{ address.1 }}</li>
+    <li>Квартира: {{ address.2 }}</li>
+</ul>

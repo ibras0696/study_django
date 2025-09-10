@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IT Ansar — Контакты</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg1:#0b1220; --bg2:#0e1a33; --card:#0f213f; --line:#1e3768;
+      --txt:#e8f0ff; --muted:#9bb1e1; --accent:#3ec6ff; --accent2:#7aa7ff;
+      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+    html,body{height:100%}
+    body{
+      font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 600px at 100% -10%, rgba(62,198,255,.15), transparent 70%),
+        radial-gradient(900px 500px at -10% 120%, rgba(122,167,255,.18), transparent 65%),
+        linear-gradient(160deg,var(--bg1),var(--bg2) 70%);
+      display:flex; flex-direction:column; overflow-x:hidden
+    }
+    .glow{position:fixed; inset:-20vh -10vw auto auto; width:55vmax; height:55vmax;
+      background:radial-gradient(circle at 30% 30%, rgba(62,198,255,.18), transparent 60%);
+      filter:blur(40px); pointer-events:none; opacity:.6; animation:float 18s ease-in-out infinite}
+    .glow:nth-child(2){inset:auto auto -25vh -10vw;
+      background:radial-gradient(circle at 70% 40%, rgba(122,167,255,.2), transparent 60%);
+      animation-duration:22s}
+    @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-2rem,1rem)}}
+
+    header{position:sticky; top:0; z-index:10; backdrop-filter:blur(8px);
+      background:linear-gradient(180deg, rgba(7,13,26,.75), rgba(7,13,26,.35));
+      border-bottom:1px solid var(--line)}
+    .container{max-width:1200px; margin:0 auto; padding:18px 24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--txt)}
+    .logo{width:36px; height:36px; border-radius:12px;
+      background:conic-gradient(from 200deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow:0 6px 18px rgba(62,198,255,.35) inset}
+    .brand span{font-weight:800; letter-spacing:.4px}
+    nav a{color:var(--muted); text-decoration:none; margin-left:20px; font-weight:600; position:relative; transition:color .25s}
+    nav a::after{content:""; position:absolute; left:0; right:100%; bottom:-6px; height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:right .25s}
+    nav a:hover{color:var(--txt)} nav a:hover::after{right:0}
+    nav a.active{color:var(--txt)} nav a.active::after{right:0}
+
+    .hero{padding:70px 24px 30px; text-align:center}
+    .eyebrow{display:inline-flex; align-items:center; gap:10px; padding:6px 12px;
+      border:1px solid var(--line); border-radius:999px; color:var(--muted); font-weight:600; font-size:.85rem;
+      background:linear-gradient(180deg, rgba(20,36,70,.6), rgba(20,36,70,.2))}
+    .eyebrow i{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(62,198,255,.15)}
+    h1{margin:22px auto 12px; font-size:clamp(28px,4.2vw,54px); line-height:1.08;
+      background:linear-gradient(180deg,#fff,#cfe4ff 70%); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .lead{max-width:760px; margin:0 auto; color:var(--muted); line-height:1.7; font-size:clamp(16px,1.6vw,18px)}
+
+    /* Контент */
+    .grid{max-width:1200px; margin:28px auto 60px; padding:0 24px;
+      display:grid; gap:18px; grid-template-columns:1.1fr .9fr}
+    .card{
+      background:linear-gradient(180deg, rgba(18,32,64,.95), rgba(16,30,58,.82));
+      border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+      position:relative; overflow:hidden; transition:transform .2s,border-color .2s}
+    .card:hover{transform:translateY(-3px); border-color:rgba(126,165,255,.6)}
+    .card::before{content:""; position:absolute; inset:-40% -10% auto auto; width:60%; height:60%;
+      background:radial-gradient(circle at 70% 30%, rgba(62,198,255,.12), transparent 65%); transform:rotate(18deg)}
+
+    /* Форма */
+    form{display:grid; gap:12px}
+    label{font-size:.92rem; color:var(--muted)}
+    input,textarea,select{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--line);
+      background:#0c1a33; color:var(--txt); outline:none
+    }
+    textarea{min-height:120px; resize:vertical}
+    .row{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+    .btn{appearance:none; border:none; cursor:pointer; padding:14px 22px; border-radius:14px; font-weight:800; letter-spacing:.3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#0a1224;
+      box-shadow:0 12px 30px rgba(62,198,255,.25); transition:transform .15s, box-shadow .15s}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 16px 40px rgba(62,198,255,.35)}
+
+    /* Контакты */
+    .contacts{display:grid; gap:12px; font-size:1rem}
+    .item{display:flex; gap:10px; align-items:flex-start; color:var(--muted)}
+    .dot{width:10px; height:10px; border-radius:50%; background:var(--accent); margin-top:7px; box-shadow:0 0 0 4px rgba(62,198,255,.12)}
+
+    /* Карта-заглушка */
+    .map{margin-top:12px; border:1px dashed var(--line); border-radius:var(--radius); height:240px;
+      background:
+        linear-gradient(180deg, rgba(20,36,70,.55), rgba(20,36,70,.25)),
+        repeating-linear-gradient(90deg, rgba(62,198,255,.06) 0 2px, transparent 2px 6px),
+        repeating-linear-gradient(0deg, rgba(122,167,255,.06) 0 2px, transparent 2px 6px);
+      display:grid; place-items:center; color:var(--muted)}
+
+    /* Соцсети/FAQ */
+    .flex{max-width:1200px; margin:0 auto 70px; padding:0 24px; display:grid; gap:18px; grid-template-columns:1fr 1fr}
+    .links{display:flex; flex-wrap:wrap; gap:10px}
+    .chip{border:1px solid var(--line); color:var(--muted); padding:10px 14px; border-radius:999px; text-decoration:none}
+    details{border:1px solid var(--line); border-radius:14px; padding:14px 16px; background:linear-gradient(180deg, rgba(18,32,64,.6), rgba(18,32,64,.3))}
+    summary{cursor:pointer; font-weight:700}
+    details p{color:var(--muted); margin-top:8px; line-height:1.7}
+
+    footer{border-top:1px solid var(--line); background:linear-gradient(180deg, rgba(7,13,26,.35), rgba(7,13,26,.7));
+      color:var(--muted); text-align:center; padding:22px; font-size:.95rem}
+
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+      .flex{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div><div class="glow"></div>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <span>IT Ansar</span>
+      </a>
+      <nav>
+        <a href="/new-home-it-ansar/">Главная</a>
+        <a href="/project/">Проекты</a>
+        <a href="/team/">Команда</a>
+        <a href="/contacts/">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow"><i></i> Свяжитесь с нами</span>
+      <h1>Контакты IT Ansar</h1>
+      <p class="lead">Опишите вашу задачу — предложим решение, сроки и оценку. Отвечаем в течение рабочего дня.</p>
+    </section>
+
+    <section class="grid">
+      <!-- Форма -->
+      <article class="card">
+        <h2 style="margin-bottom:10px">Написать нам</h2>
+        <form onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами.');">
+          <div class="row">
+            <div>
+              <label for="name">Ваше имя</label>
+              <input id="name" name="name" type="text" placeholder="Имя и фамилия" required>
+            </div>
+            <div>
+              <label for="email">Эл. почта</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="company">Компания (необязательно)</label>
+              <input id="company" name="company" type="text" placeholder="Название компании">
+            </div>
+            <div>
+              <label for="topic">Тема обращения</label>
+              <select id="topic" name="topic">
+                <option>Проект / разработка</option>
+                <option>Партнёрство</option>
+                <option>Вакансии</option>
+                <option>Другое</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="msg">Сообщение</label>
+            <textarea id="msg" name="message" placeholder="Коротко о задаче, сроках и бюджете (если есть)"></textarea>
+          </div>
+          <button class="btn" type="submit">Отправить</button>
+        </form>
+      </article>
+
+      <!-- Контактные данные -->
+      <aside class="card">
+        <h2 style="margin-bottom:10px">Реквизиты и связь</h2>
+        <div class="contacts">
+          <div class="item"><span class="dot"></span><div><strong>Почта:</strong> hello@it-ansar.example</div></div>
+          <div class="item"><span class="dot"></span><div><strong>Телефон:</strong> +7 (928) 000-00-00</div></div>
+          <div class="item"><span class="dot"></span><div><strong>Офис:</strong> Грозный, проспект Путина, д. 1 (пример)</div></div>
+          <div class="item"><span class="dot"></span><div><strong>Время работы:</strong> Пн–Пт, 10:00–19:00 (MSK)</div></div>
+        </div>
+        <div class="map">Интерактивная карта (вставьте iframe Яндекс/Google)</div>
+      </aside>
+    </section>
+
+    <section class="flex">
+      <article class="card">
+        <h2 style="margin-bottom:10px">Мы в соцсетях</h2>
+        <p class="lead" style="text-align:left; margin-bottom:12px">Обновления, релизы и вакансии — в наших каналах.</p>
+        <div class="links">
+          <a class="chip" href="#" target="_blank" rel="noopener">Telegram</a>
+          <a class="chip" href="#" target="_blank" rel="noopener">VK</a>
+          <a class="chip" href="#" target="_blank" rel="noopener">YouTube</a>
+          <a class="chip" href="#" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 style="margin-bottom:10px">FAQ</h2>
+        <details open>
+          <summary>Сколько стоит стартовый аудит проекта?</summary>
+          <p>Бесплатно: делаем короткий созвон, собираем вводные и отдаём rough-оценку с вариантом решения.</p>
+        </details>
+        <details style="margin-top:10px">
+          <summary>Работаете по договору и НДА?</summary>
+          <p>Да, стандартный договор и НДА по требованию. Возможна работа с ИП/ООО.</p>
+        </details>
+        <details style="margin-top:10px">
+          <summary>Как быстро начнёте?</summary>
+          <p>Обычно — в течение 3–7 дней после согласования ТЗ и условий.</p>
+        </details>
+      </article>
+    </section>
+  </main>
+
+  <footer>© 2025 IT Ansar. Все права защищены.</footer>
+</body>
+</html>

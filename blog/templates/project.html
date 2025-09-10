@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IT Ansar — Проекты</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg1:#0b1220; --bg2:#0e1a33; --card:#0f213f; --line:#1e3768;
+      --txt:#e8f0ff; --muted:#9bb1e1; --accent:#3ec6ff; --accent2:#7aa7ff;
+      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+    html,body{height:100%}
+    body{
+      font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 600px at 100% -10%, rgba(62,198,255,.15), transparent 70%),
+        radial-gradient(900px 500px at -10% 120%, rgba(122,167,255,.18), transparent 65%),
+        linear-gradient(160deg,var(--bg1),var(--bg2) 70%);
+      display:flex; flex-direction:column; overflow-x:hidden
+    }
+    .glow{position:fixed; inset:-20vh -10vw auto auto; width:55vmax; height:55vmax;
+      background:radial-gradient(circle at 30% 30%, rgba(62,198,255,.18), transparent 60%);
+      filter:blur(40px); pointer-events:none; opacity:.6; animation:float 18s ease-in-out infinite}
+    .glow:nth-child(2){inset:auto auto -25vh -10vw;
+      background:radial-gradient(circle at 70% 40%, rgba(122,167,255,.2), transparent 60%);
+      animation-duration:22s}
+    @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-2rem,1rem)}}
+
+    header{position:sticky; top:0; z-index:10; backdrop-filter:blur(8px);
+      background:linear-gradient(180deg, rgba(7,13,26,.75), rgba(7,13,26,.35));
+      border-bottom:1px solid var(--line)}
+    .container{max-width:1200px; margin:0 auto; padding:18px 24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--txt)}
+    .logo{width:36px; height:36px; border-radius:12px;
+      background:conic-gradient(from 200deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow:0 6px 18px rgba(62,198,255,.35) inset}
+    .brand span{font-weight:800; letter-spacing:.4px}
+
+    nav a{color:var(--muted); text-decoration:none; margin-left:20px; font-weight:600; position:relative; transition:color .25s}
+    nav a::after{content:""; position:absolute; left:0; right:100%; bottom:-6px; height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:right .25s}
+    nav a:hover{color:var(--txt)} nav a:hover::after{right:0}
+    nav a.active{color:var(--txt)} nav a.active::after{right:0}
+
+    .hero{padding:70px 24px 30px; text-align:center}
+    .eyebrow{display:inline-flex; align-items:center; gap:10px; padding:6px 12px;
+      border:1px solid var(--line); border-radius:999px; color:var(--muted); font-weight:600; font-size:.85rem;
+      background:linear-gradient(180deg, rgba(20,36,70,.6), rgba(20,36,70,.2))}
+    .eyebrow i{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(62,198,255,.15)}
+    h1{margin:22px auto 12px; font-size:clamp(28px,4.2vw,54px); line-height:1.08;
+      background:linear-gradient(180deg,#fff,#cfe4ff 70%); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+    .lead{max-width:760px; margin:0 auto; color:var(--muted); line-height:1.7; font-size:clamp(16px,1.6vw,18px)}
+
+    .spotlight{max-width:1200px; margin:28px auto 10px; padding:0 24px; display:grid; gap:18px}
+    .spot{display:grid; gap:18px; grid-template-columns:1.15fr .85fr; align-items:stretch}
+    .spot:nth-child(even){grid-template-columns:.85fr 1.15fr}
+    .card{
+      background:linear-gradient(180deg, rgba(18,32,64,.95), rgba(16,30,58,.8));
+      border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);
+      position:relative; overflow:hidden; transition:transform .2s, border-color .2s}
+    .card:hover{transform:translateY(-3px); border-color:rgba(126,165,255,.6)}
+    .card::before{content:""; position:absolute; inset:-40% -10% auto auto; width:60%; height:60%;
+      background:radial-gradient(circle at 70% 30%, rgba(62,198,255,.12), transparent 65%); transform:rotate(18deg)}
+    .badge{display:inline-flex; gap:8px; align-items:center; font-size:.8rem; font-weight:700; color:#0a1224;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); padding:8px 12px; border-radius:999px; box-shadow:0 10px 24px rgba(62,198,255,.25)}
+    .badge i{width:10px; height:10px; border-radius:50%; background:#0a1224}
+    h2{margin:14px 0 8px; font-size:1.6rem}
+    p{color:var(--muted); line-height:1.7}
+    ul.features{margin-top:12px; color:var(--txt); display:grid; gap:8px; list-style:none}
+    ul.features li{display:flex; gap:10px; align-items:flex-start}
+    ul.features li::before{content:"✓"; color:var(--accent); font-weight:800; margin-top:2px}
+    .illus{border:1px dashed var(--line); border-radius:var(--radius); display:grid; place-items:center; padding:24px;
+      background:linear-gradient(180deg, rgba(20,36,70,.5), rgba(20,36,70,.25))}
+    .illus canvas{width:100%; height:220px; background:
+      repeating-linear-gradient(90deg, rgba(62,198,255,.06) 0 2px, transparent 2px 6px),
+      repeating-linear-gradient(0deg, rgba(122,167,255,.06) 0 2px, transparent 2px 6px)}
+
+    .grid{max-width:1200px; margin:12px auto 70px; padding:0 24px;
+      display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .mini h3{font-size:1.05rem; margin-bottom:6px}
+    .mini p{font-size:.98rem}
+
+    footer{border-top:1px solid var(--line); background:linear-gradient(180deg, rgba(7,13,26,.35), rgba(7,13,26,.7));
+      color:var(--muted); text-align:center; padding:22px; font-size:.95rem}
+
+    @media (max-width:900px){ .spot, .spot:nth-child(even){grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="glow"></div><div class="glow"></div>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <span>IT Ansar</span>
+      </a>
+      <nav>
+        <a href="/new-home-it-ansar/">Главная</a>
+        <a href="/project/">Проекты</a>
+        <a href="/team/">Команда</a>
+        <a href="/contacts/">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow"><i></i> Наши продукты</span>
+      <h1>Проекты IT Ansar</h1>
+      <p class="lead">Мы создаём практичные, масштабируемые решения. Ниже — ключевые направления, которыми гордимся.</p>
+    </section>
+
+    <!-- Ansarium -->
+    <section class="spotlight">
+      <div class="spot">
+        <article class="card">
+          <span class="badge"><i></i> Учебная платформа</span>
+          <h2>Ansarium — платформа для обучения и роста</h2>
+          <p>Онлайн-платформа, ориентированная на практику: курсы по Python и бэкенду, задачи с автопроверкой, проекты, карьерные треки и наставничество.</p>
+          <ul class="features">
+            <li>Интерактивные модули, автотесты и прогресс-трекер</li>
+            <li>Живые ревью кода и карьерные рекомендации</li>
+            <li>Личный кабинет, сертификаты, геймификация</li>
+            <li>API для интеграции с корпоративным обучением</li>
+          </ul>
+        </article>
+        <aside class="illus card">
+          <div class="badge" style="justify-self:start"><i></i> Макет интерфейса</div>
+          <div style="margin-top:14px" class="illus">
+            <canvas aria-hidden="true"></canvas>
+          </div>
+          <p style="margin-top:14px">Пример дашборда учащегося: прогресс, рекомендованные задачи, последние ревью.</p>
+        </aside>
+      </div>
+
+      <!-- Ansar-Biznes -->
+      <div class="spot">
+        <aside class="illus card">
+          <div class="badge" style="justify-self:start"><i></i> Система</div>
+          <div style="margin-top:14px" class="illus">
+            <canvas aria-hidden="true"></canvas>
+          </div>
+          <p style="margin-top:14px">Единая панель: CRM, заказы, склад, аналитика, интеграции (WhatsApp, Telegram, 1С).</p>
+        </aside>
+        <article class="card">
+          <span class="badge"><i></i> Автоматизация бизнеса</span>
+          <h2>Ansar-Biznes — платформа операционного контура</h2>
+          <p>Модульная система для малого и среднего бизнеса: CRM, задачи, склад, биллинг, бот-интеграции и аналитика в одном окне.</p>
+          <ul class="features">
+            <li>CRM + воронки продаж + скрипты и автоворонки</li>
+            <li>Интеграции: WhatsApp/Green API, Telegram, платежи</li>
+            <li>Учет товаров/склада, акты, счета, чеки</li>
+            <li>Дашборды KPI: LTV, ретеншн, CAC, маржинальность</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Доп. инициативы -->
+    <section class="grid">
+      <article class="card mini">
+        <h3>Research & Prototypes</h3>
+        <p>Эксперименты с LLM/агентами, поиск Product-Market Fit и быстрые пилоты.</p>
+      </article>
+      <article class="card mini">
+        <h3>DevOps Toolkit</h3>
+        <p>Набор типовых конфигов: observability, CI/CD, алерты, безопасные пайплайны.</p>
+      </article>
+      <article class="card mini">
+        <h3>Design System</h3>
+        <p>Единый UI-кит и гайдлайны: типографика, цвета, компоненты и паттерны.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>© 2025 IT Ansar. Все права защищены.</footer>
+</body>
+</html>

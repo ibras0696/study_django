@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ meta.title|default:"Профиль пользователя" }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* Сброс и переменные */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg1:#0b1220; --bg2:#0e1a33; --card:#0f213f; --line:#1e3768;
+      --txt:#e8f0ff; --muted:#9bb1e1; --accent:#3ec6ff; --accent2:#7aa7ff;
+      --ok:#21d07a; --warn:#ffb84d;
+      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+    html,body{height:100%}
+    body{
+      font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 600px at 100% -10%, rgba(62,198,255,.15), transparent 70%),
+        radial-gradient(900px 500px at -10% 120%, rgba(122,167,255,.18), transparent 65%),
+        linear-gradient(160deg,var(--bg1),var(--bg2) 70%);
+      display:flex; flex-direction:column; overflow-x:hidden
+    }
+    .glow{position:fixed; inset:-20vh -10vw auto auto; width:55vmax; height:55vmax;
+      background:radial-gradient(circle at 30% 30%, rgba(62,198,255,.18), transparent 60%);
+      filter:blur(40px); pointer-events:none; opacity:.6; animation:float 18s ease-in-out infinite}
+    .glow:nth-child(2){inset:auto auto -25vh -10vw;
+      background:radial-gradient(circle at 70% 40%, rgba(122,167,255,.2), transparent 60%); animation-duration:22s}
+    @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-2rem,1rem)}}
+
+    /* Хедер */
+    header{position:sticky; top:0; z-index:10; backdrop-filter:blur(8px);
+      background:linear-gradient(180deg, rgba(7,13,26,.75), rgba(7,13,26,.35)); border-bottom:1px solid var(--line)}
+    .container{max-width:1100px; margin:0 auto; padding:16px 20px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--txt)}
+    .logo{width:36px; height:36px; border-radius:12px;
+      background:conic-gradient(from 200deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow:0 6px 18px rgba(62,198,255,.35) inset}
+    .brand span{font-weight:800; letter-spacing:.4px}
+    nav a{color:var(--muted); text-decoration:none; margin-left:18px; font-weight:600; position:relative; transition:color .25s}
+    nav a::after{content:""; position:absolute; left:0; right:100%; bottom:-6px; height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:right .25s}
+    nav a:hover{color:var(--txt)} nav a:hover::after{right:0}
+    nav a.active{color:var(--txt)} nav a.active::after{right:0}
+
+    /* Хиро */
+    .hero{padding:34px 20px 0}
+    .eyebrow{display:inline-flex; align-items:center; gap:10px; padding:6px 12px;
+      border:1px solid var(--line); border-radius:999px; color:var(--muted); font-weight:600; font-size:.85rem;
+      background:linear-gradient(180deg, rgba(20,36,70,.6), rgba(20,36,70,.2))}
+    .eyebrow i{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(62,198,255,.15)}
+    h1.title{margin:14px 0 6px; font-size:clamp(24px,4vw,36px); line-height:1.15;
+      background:linear-gradient(180deg,#fff,#cfe4ff 70%); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .subtitle{color:var(--muted); margin-bottom:18px}
+
+    /* Карточка профиля */
+    main{flex:1; display:flex; justify-content:center}
+    .profile{width:100%; max-width:1100px; padding:18px 20px 40px}
+    .card{
+      background:linear-gradient(180deg, rgba(18,32,64,.95), rgba(16,30,58,.84));
+      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+      position:relative; overflow:hidden; transition:transform .2s, border-color .2s
+    }
+    .card:hover{transform:translateY(-2px); border-color:rgba(126,165,255,.6)}
+    .card::before{content:""; position:absolute; inset:-40% -10% auto auto; width:60%; height:60%;
+      background:radial-gradient(circle at 70% 30%, rgba(62,198,255,.12), transparent 65%); transform:rotate(18deg)}
+    .profile-header{display:grid; grid-template-columns:120px 1fr; gap:18px; padding:22px}
+    .avatar{
+      width:120px; height:120px; border-radius:50%; padding:4px;
+      background:conic-gradient(from 200deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow:0 6px 18px rgba(62,198,255,.35) inset;
+      display:grid; place-items:center; overflow:hidden
+    }
+    .avatar img{width:100%; height:100%; border-radius:50%; object-fit:cover}
+    .avatar-fallback{width:100%; height:100%; border-radius:50%;
+      display:grid; place-items:center; color:#0a1224; font-weight:800; font-size:38px;
+      background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(200,220,255,.85))}
+    .hgroup{display:flex; flex-direction:column; justify-content:center}
+    .name{font-weight:800; font-size:1.4rem}
+    .bio{color:var(--muted); margin-top:6px; line-height:1.6}
+
+    /* Сетка деталей */
+    .grid{display:grid; grid-template-columns:1.1fr .9fr; gap:16px; padding:0 22px 22px}
+    .panel{padding:18px; border:1px solid var(--line); border-radius:14px;
+      background:linear-gradient(180deg, rgba(20,36,70,.55), rgba(20,36,70,.25))}
+    .panel h3{font-size:1.05rem; margin-bottom:10px}
+    .kv{display:grid; row-gap:10px}
+    .row{display:grid; grid-template-columns:140px 1fr; column-gap:10px; align-items:start}
+    .key{color:var(--muted)}
+    .val{color:var(--txt)}
+
+    /* Чипы языков */
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-weight:600; color:var(--muted)}
+    .chip.ok{border-color:rgba(33,208,122,.35); box-shadow:0 0 0 2px rgba(33,208,122,.08) inset}
+    .chip.warn{border-color:rgba(255,184,77,.35); box-shadow:0 0 0 2px rgba(255,184,77,.08) inset}
+
+    /* Список аккуратнее */
+    ul.clean{list-style:none; display:grid; gap:8px}
+    ul.clean li{display:flex; gap:10px; align-items:flex-start}
+    ul.clean li::before{content:"•"; color:var(--accent); transform:translateY(-1px)}
+
+    /* Футер */
+    footer{border-top:1px solid var(--line); background:linear-gradient(180deg, rgba(7,13,26,.35), rgba(7,13,26,.7));
+      color:var(--muted); text-align:center; padding:18px; font-size:.95rem}
+
+    /* Адаптив */
+    @media (max-width:880px){
+      .profile-header{grid-template-columns:1fr; text-align:center}
+      .hgroup{align-items:center}
+      .grid{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+      .key{margin-bottom:2px}
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div><div class="glow"></div>
+
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a href="{% url 'home' %}" class="brand">
+          <div class="logo" aria-hidden="true"></div><span>IT Ansar</span>
+        </a>
+        <nav>
+          <a href="{% url 'home' %}" class="{% if nav_active == 'home' %}active{% endif %}">Главная</a>
+          <a href="{% url 'project_ansar' %}" class="{% if nav_active == 'projects' %}active{% endif %}">Проекты</a>
+          <a href="{% url 'team_ansar' %}" class="{% if nav_active == 'team' %}active{% endif %}">Команда</a>
+          <a href="{% url 'contact' %}" class="{% if nav_active == 'contacts' %}active{% endif %}">Контакты</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="profile">
+      <div class="hero">
+        <span class="eyebrow"><i></i> Профиль</span>
+        <h1 class="title">{{ user.name|default:"Пользователь" }}</h1>
+        <p class="subtitle">{{ user.tagline|default:"Краткая информация о пользователе и его роли" }}</p>
+      </div>
+
+      <article class="card">
+        <!-- Шапка профиля -->
+        <div class="profile-header">
+          <div class="avatar">
+            {% if user.profile_picture_url %}
+              <img src="{{ user.profile_picture_url }}" alt="Фото профиля {{ user.name }}">
+            {% else %}
+              <div class="avatar-fallback">{{ user.name|default:"U"|slice:":1"|upper }}</div>
+            {% endif %}
+          </div>
+          <div class="hgroup">
+            <div class="name">{{ user.name }}</div>
+            <p class="bio">{{ user.bio|default:"О себе: напишите пару предложений — чем занимаетесь, чем гордитесь и что ищете." }}</p>
+          </div>
+        </div>
+
+        <!-- Сетка деталей -->
+        <div class="grid">
+          <!-- Личные данные -->
+          <section class="panel">
+            <h3>Основная информация</h3>
+            <div class="kv">
+              <div class="row"><div class="key">Возраст</div><div class="val">{{ user.age|default:"—" }}</div></div>
+              <div class="row"><div class="key">Email</div><div class="val">
+                <a href="mailto:{{ user.email }}" style="color:var(--txt)">{{ user.email|default:"—" }}</a>
+              </div></div>
+              <div class="row"><div class="key">Адрес</div><div class="val">
+                {% if address and address|length >= 3 %}
+                  {{ address.0 }}, дом {{ address.1 }}, кв. {{ address.2 }}
+                {% else %}
+                  —
+                {% endif %}
+              </div></div>
+              <div class="row"><div class="key">Сайт</div><div class="val">
+                {% if user.website %}<a href="{{ user.website }}" target="_blank" rel="noopener" style="color:var(--txt)">{{ user.website }}</a>{% else %}—{% endif %}
+              </div></div>
+            </div>
+          </section>
+
+          <!-- Стек и навыки -->
+          <section class="panel">
+            <h3>Технологии</h3>
+              {% if lang %}
+                <div class="chips" style="margin-top:8px">
+                  {% for item in lang %}
+                    <span class="chip
+                      {% if item|lower in 'python typescript go rust' %} ok{% endif %}
+                      {% if item|lower in 'php bash' %} warn{% endif %}
+                    ">{{ item }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="val" style="color:var(--muted)">Добавьте языки/технологии в профиль.</p>
+              {% endif %}
+
+            {% if skills %}
+              <h3 style="margin-top:16px">Навыки</h3>
+              <ul class="clean" style="margin-top:6px">
+                {% for s in skills %}<li>{{ s }}</li>{% endfor %}
+              </ul>
+            {% endif %}
+          </section>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>© {{ meta.year|default:2025 }} IT Ansar. Все права защищены.</footer>
+</body>
+</html>

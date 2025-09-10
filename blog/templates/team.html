@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IT Ansar — Команда</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg1:#0b1220; --bg2:#0e1a33; --card:#0f213f; --line:#1e3768;
+      --txt:#e8f0ff; --muted:#9bb1e1; --accent:#3ec6ff; --accent2:#7aa7ff;
+      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+    html,body{height:100%}
+    body{
+      font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 600px at 100% -10%, rgba(62,198,255,.15), transparent 70%),
+        radial-gradient(900px 500px at -10% 120%, rgba(122,167,255,.18), transparent 65%),
+        linear-gradient(160deg,var(--bg1),var(--bg2) 70%);
+      display:flex; flex-direction:column; overflow-x:hidden
+    }
+    .glow{position:fixed; inset:-20vh -10vw auto auto; width:55vmax; height:55vmax;
+      background:radial-gradient(circle at 30% 30%, rgba(62,198,255,.18), transparent 60%);
+      filter:blur(40px); pointer-events:none; opacity:.6; animation:float 18s ease-in-out infinite}
+    .glow:nth-child(2){inset:auto auto -25vh -10vw;
+      background:radial-gradient(circle at 70% 40%, rgba(122,167,255,.2), transparent 60%);
+      animation-duration:22s}
+    @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-2rem,1rem)}}
+
+    header{position:sticky; top:0; z-index:10; backdrop-filter:blur(8px);
+      background:linear-gradient(180deg, rgba(7,13,26,.75), rgba(7,13,26,.35));
+      border-bottom:1px solid var(--line)}
+    .container{max-width:1200px; margin:0 auto; padding:18px 24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--txt)}
+    .logo{width:36px; height:36px; border-radius:12px;
+      background:conic-gradient(from 200deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow:0 6px 18px rgba(62,198,255,.35) inset}
+    .brand span{font-weight:800; letter-spacing:.4px}
+    nav a{color:var(--muted); text-decoration:none; margin-left:20px; font-weight:600; position:relative; transition:color .25s}
+    nav a::after{content:""; position:absolute; left:0; right:100%; bottom:-6px; height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:right .25s}
+    nav a:hover{color:var(--txt)} nav a:hover::after{right:0}
+    nav a.active{color:var(--txt)} nav a.active::after{right:0}
+
+    .hero{padding:70px 24px 26px; text-align:center}
+    .eyebrow{display:inline-flex; align-items:center; gap:10px; padding:6px 12px;
+      border:1px solid var(--line); border-radius:999px; color:var(--muted); font-weight:600; font-size:.85rem;
+      background:linear-gradient(180deg, rgba(20,36,70,.6), rgba(20,36,70,.2))}
+    .eyebrow i{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(62,198,255,.15)}
+    h1{margin:20px auto 10px; font-size:clamp(28px,4.2vw,54px); line-height:1.08;
+      background:linear-gradient(180deg,#fff,#cfe4ff 70%); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .lead{max-width:780px; margin:0 auto; color:var(--muted); line-height:1.7; font-size:clamp(16px,1.6vw,18px)}
+
+    /* Секция участников */
+    .team{max-width:1200px; margin:28px auto; padding:0 24px;
+      display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{
+      background:linear-gradient(180deg, rgba(18,32,64,.95), rgba(16,30,58,.82));
+      border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+      position:relative; overflow:hidden; transition:transform .2s,border-color .2s}
+    .card:hover{transform:translateY(-4px); border-color:rgba(126,165,255,.6)}
+    .avatar{
+      width:72px; height:72px; border-radius:16px; background:
+      linear-gradient(180deg, rgba(62,198,255,.25), rgba(122,167,255,.25)),
+      linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border:1px solid var(--line); display:grid; place-items:center; font-weight:800; color:#0a1224;
+      box-shadow:0 10px 24px rgba(62,198,255,.18); margin-bottom:12px
+    }
+    .role{display:inline-block; margin-top:8px; font-size:.82rem; color:#0a1224; font-weight:800;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); padding:6px 10px; border-radius:999px}
+    .about{color:var(--muted); line-height:1.7; margin-top:10px; font-size:.98rem}
+    .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+    .tag{font-size:.82rem; color:var(--muted); border:1px solid var(--line); padding:6px 10px; border-radius:999px}
+
+    /* Ценности */
+    .values{max-width:1200px; margin:12px auto 28px; padding:0 24px;
+      display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .values .card h3{font-size:1.05rem; margin-bottom:6px}
+    .values .card p{color:var(--muted); font-size:.98rem; line-height:1.7}
+
+    /* Блок найма */
+    .hire{max-width:1200px; margin:10px auto 70px; padding:0 24px}
+    .hire .inner{
+      display:grid; gap:18px; grid-template-columns:1.2fr .8fr; align-items:center
+    }
+    .badge{display:inline-flex; gap:8px; align-items:center; font-size:.8rem; font-weight:700; color:#0a1224;
+      background:linear-gradient(90deg,var(--accent),var(--accent2)); padding:8px 12px; border-radius:999px; box-shadow:0 10px 24px rgba(62,198,255,.25)}
+    .btn{display:inline-block; margin-top:16px; padding:14px 22px; border-radius:14px; font-weight:800; letter-spacing:.3px;
+      text-decoration:none; color:#0a1224; background:linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow:0 12px 30px rgba(62,198,255,.25); transition:transform .15s, box-shadow .15s}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 16px 40px rgba(62,198,255,.35)}
+    .panel{border:1px dashed var(--line); border-radius:var(--radius); padding:22px;
+      background:linear-gradient(180deg, rgba(20,36,70,.5), rgba(20,36,70,.25))}
+    .panel p{color:var(--muted); line-height:1.7}
+
+    footer{border-top:1px solid var(--line); background:linear-gradient(180deg, rgba(7,13,26,.35), rgba(7,13,26,.7));
+      color:var(--muted); text-align:center; padding:22px; font-size:.95rem}
+
+    @media (max-width:900px){ .hire .inner{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div class="glow"></div><div class="glow"></div>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <span>IT Ansar</span>
+      </a>
+      <nav>
+        <a href="/new-home-it-ansar/">Главная</a>
+        <a href="/project/">Проекты</a>
+        <a href="/team/">Команда</a>
+        <a href="/contacts/">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow"><i></i> Люди — наш главный актив</span>
+      <h1>Команда IT Ansar</h1>
+      <p class="lead">Мы соединяем инженерную строгость, дизайн и предпринимательство. Ниже — ядро команды и наши принципы работы.</p>
+    </section>
+
+    <!-- Участники -->
+    <section class="team">
+      <article class="card">
+        <div class="avatar">BE</div>
+        <h3>Бэкенд-инженер</h3>
+        <span class="role">Python / FastAPI / Django</span>
+        <p class="about">Отвечает за архитектуру сервисов, чистый код, тесты и производительность. Любит наблюдаемые системы и автоматизацию.</p>
+        <div class="tags">
+          <span class="tag">PostgreSQL</span><span class="tag">SQLAlchemy</span><span class="tag">AsyncIO</span><span class="tag">CI/CD</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="avatar">FE</div>
+        <h3>Фронтенд-разработчик</h3>
+        <span class="role">TypeScript / React</span>
+        <p class="about">Создаёт быстрые интерфейсы с фокусом на UX и доступность. Ведёт дизайн-систему и UI-кит.</p>
+        <div class="tags">
+          <span class="tag">Next.js</span><span class="tag">State Mgmt</span><span class="tag">Vite</span><span class="tag">E2E</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="avatar">DS</div>
+        <h3>ML/Данные</h3>
+        <span class="role">LLM / Аналитика</span>
+        <p class="about">Решает задачи ранжирования, рекомендателей и автоматизации процессов. Отвечает за метрики и A/B-эксперименты.</p>
+        <div class="tags">
+          <span class="tag">LLM</span><span class="tag">Retrieval</span><span class="tag">Airflow</span><span class="tag">Analytics</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="avatar">PM</div>
+        <h3>Продакт-менеджер</h3>
+        <span class="role">Стратегия / Метрики</span>
+        <p class="about">Формулирует цели, road-map и отвечает за результат: гипотезы, интервью, приоритизация и unit-экономика.</p>
+        <div class="tags">
+          <span class="tag">KPI</span><span class="tag">JTBD</span><span class="tag">CJM</span><span class="tag">Discovery</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Ценности -->
+    <section class="values">
+      <article class="card">
+        <h3>Инженерная дисциплина</h3>
+        <p>Код-ревью, тесты, наблюдаемость и безопасность по умолчанию. Любая фича сопровождается метриками.</p>
+      </article>
+      <article class="card">
+        <h3>Польза и прозрачность</h3>
+        <p>Строим продукты, которые решают задачи клиентов. Честные сроки, понятная стоимость, открытая коммуникация.</p>
+      </article>
+      <article class="card">
+        <h3>Рост и наставничество</h3>
+        <p>Учимся и учим: внутренние лекции, ревью, планы развития. Помогаем вырасти быстрее рынка.</p>
+      </article>
+    </section>
+
+    <!-- Найм -->
+    <section class="hire">
+      <div class="inner">
+        <div>
+          <span class="badge"><i></i> Вакансии открыты</span>
+          <h2 style="margin:14px 0 6px">Присоединяйся к IT Ansar</h2>
+          <p class="lead" style="text-align:left">Ищем тех, кто любит решать сложные задачи и доводить до результата. Нужны: Python-разработчики, фронтенд-инженеры и продакты.</p>
+          <a class="btn" href="contacts.html">Откликнуться</a>
+        </div>
+        <div class="panel">
+          <p><strong>Процесс:</strong> скрининг → техинтервью → мини-тест → оффер. Уважение к времени кандидата и обратная связь гарантированы.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 IT Ansar. Все права защищены.</footer>
+</body>
+</html>
